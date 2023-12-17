@@ -17,6 +17,7 @@ function drawMatrix() {
   const container = document.getElementById('matrixContainer');
   container.innerHTML = ''; 
   const table = document.createElement('table');
+  
   matrix.forEach(row => {
     const tr = document.createElement('tr');
     row.forEach(value => {
