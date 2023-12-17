@@ -1,9 +1,13 @@
 let matrix = [];
 let matrixSize = 1;
 
+let width = 0;
+let height = 0;
+
+
 function createMatrix() {
-    const width = parseInt(document.getElementById('matrixWidth').value);
-    const height = parseInt(document.getElementById('matrixHeight').value);
+    width = parseInt(document.getElementById('matrixWidth').value);
+    height = parseInt(document.getElementById('matrixHeight').value);
   
     matrix = Array.from({ length: height }, () => new Array(width).fill(0));
     drawMatrix();
@@ -11,7 +15,7 @@ function createMatrix() {
 
 function drawMatrix() {
   const container = document.getElementById('matrixContainer');
-  container.innerHTML = ''; // Clear the container
+  container.innerHTML = ''; 
   const table = document.createElement('table');
   matrix.forEach(row => {
     const tr = document.createElement('tr');
@@ -24,8 +28,15 @@ function drawMatrix() {
   });
   container.appendChild(table);
   
-  // Deactivate the determinant button if the matrix is not square
-  document.getElementById('determinant').className = matrix.length === matrix[0].length ? '' : 'inactive';
+  document.getElementById('determinant').className = (width === height) || (height === width && height != 0) ? '' : 'inactive';
+  document.getElementById('horizontal').className = width > 1 ? '' : 'inactive';
+  document.getElementById('vertiacal').className = height > 1 ? '' : 'inactive';
+  document.getElementById('clock').className = height > 1 &&  width > 1 ? '' : 'inactive';
+  document.getElementById('clockCounter').className = height > 1 &&  width > 1 ? '' : 'inactive';
+
+  document.getElementById('fill').className = height === width && height != 0 ? '' : 'inactive';
+  document.getElementById('clear').className = height === width && height != 0 ? '' : 'inactive';
+  document.getElementById('transpose').className = height === width && height != 0 ? '' : 'inactive';
 }
 
 function fillRandom() {
@@ -65,11 +76,10 @@ function transposeMatrix() {
 
 function calculateDeterminant() {
   if (matrix.length !== matrix[0].length) {
-    alert('Determinant can be calculated only for square matrices.');
+    alert('Определитель только на квадратных матрицах');
     return;
   }
   
-  // This is a recursive function to calculate determinant
   function determinant(m) {
     let det = 0;
     if (m.length === 1) return m[0][0];
@@ -81,7 +91,7 @@ function calculateDeterminant() {
     return det;
   }
 
-  alert('Determinant: ' + determinant(matrix));
+  alert('Определитель: ' + determinant(matrix));
 }
 
-createMatrix(); // Initialize with 1x1 matrix
+createMatrix();

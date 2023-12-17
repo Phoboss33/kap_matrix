@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Matrix Operations</title>
+<title>матрица</title>
 <style>
   table {
     margin-top: 20px;
@@ -22,19 +22,21 @@
 </style>
 </head>
 <body>
-    <input type="number" id="matrixWidth" placeholder="Width">
-    <input type="number" id="matrixHeight" placeholder="Height">
-    <button onclick="createMatrix()">Create Matrix</button>
+    <input type="number" id="matrixWidth" placeholder="Ширина">
+    <input type="number" id="matrixHeight" placeholder="Высота">
+    <button onclick="createMatrix()">Создать матрицу</button>
     
     <div>
-      <button onclick="fillRandom()">Fill Random</button>
-      <button onclick="clearMatrix()">Clear</button>
-      <button onclick="rotateClockwise()">Rotate Clockwise</button>
-      <button onclick="rotateCounterClockwise()">Rotate Counter Clockwise</button>
-      <button onclick="mirrorHorizontally()">Mirror Horizontally</button>
-      <button onclick="mirrorVertically()">Mirror Vertically</button>
-      <button onclick="transposeMatrix()">Transpose</button>
-      <button id="determinant" onclick="calculateDeterminant()">Determinant</button>
+      <button id="fill"  onclick="fillRandom()">Заполнить</button>
+      <button id="clear" onclick="clearMatrix()">Очистить</button>
+      <button id="clock" onclick="rotateClockwise()">По часовой</button>
+      <button id="clockCounter" onclick="rotateCounterClockwise()">Против часовой</button>
+
+      <button id="horizontal" onclick="mirrorHorizontally()">Отзеркалить по горизонтали</button>
+      <button id="vertiacal" onclick="mirrorVertically()">По вертикали</button>
+
+      <button id="transpose" onclick="transposeMatrix()">Транспонировать</button>
+      <button id="determinant" onclick="calculateDeterminant()">Определитель</button>
     </div>
     
     <div id="matrixContainer"></div>
