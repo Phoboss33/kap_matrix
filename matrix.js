@@ -2,9 +2,11 @@ let matrix = [];
 let matrixSize = 1;
 
 function createMatrix() {
-  matrixSize = parseInt(document.getElementById('matrixSize').value);
-  matrix = Array.from({ length: matrixSize }, () => new Array(matrixSize).fill(0));
-  drawMatrix();
+    const width = parseInt(document.getElementById('matrixWidth').value);
+    const height = parseInt(document.getElementById('matrixHeight').value);
+  
+    matrix = Array.from({ length: height }, () => new Array(width).fill(0));
+    drawMatrix();
 }
 
 function drawMatrix() {
