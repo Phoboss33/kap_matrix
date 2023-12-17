@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Matrix Operations</title>
+<style>
+  table {
+    margin-top: 20px;
+    border-collapse: collapse;
+  }
+  td {
+    width: 30px;
+    height: 30px;
+    border: 1px solid #000;
+    text-align: center;
+  }
+  .inactive {
+    opacity: 0.5;
+    pointer-events: none;
+  }
+</style>
+</head>
+<body>
+    <select id="matrixSize">
+      <option value="1">1x1</option>
+      <option value="2">2x2</option>
+      <option value="3">3x3</option>
+      <option value="4">4x4</option>
+      <option value="5">5x5</option>
+      <option value="6">6x6</option>
+      <option value="7">7x7</option>
+      <option value="8">8x8</option>
+      <option value="9">9x9</option>
+    </select>
+    <button onclick="createMatrix()">Create Matrix</button>
+    
+    <div>
+      <button onclick="fillRandom()">Fill Random</button>
+      <button onclick="clearMatrix()">Clear</button>
+      <button onclick="rotateClockwise()">Rotate Clockwise</button>
+      <button onclick="rotateCounterClockwise()">Rotate Counter Clockwise</button>
+      <button onclick="mirrorHorizontally()">Mirror Horizontally</button>
+      <button onclick="mirrorVertically()">Mirror Vertically</button>
+      <button onclick="transposeMatrix()">Transpose</button>
+      <button id="determinant" onclick="calculateDeterminant()">Determinant</button>
+    </div>
+    
+    <div id="matrixContainer"></div>
+    
+    <script src="matrix.js"></script>
+    </body>
+    </html>
