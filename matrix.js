@@ -14,30 +14,36 @@ function createMatrix() {
 }
 
 function drawMatrix() {
-  const container = document.getElementById('matrixContainer');
-  container.innerHTML = ''; 
-  const table = document.createElement('table');
-  
-  matrix.forEach(row => {
-    const tr = document.createElement('tr');
-    row.forEach(value => {
-      const td = document.createElement('td');
-      td.textContent = value;
-      tr.appendChild(td);
-    });
-    table.appendChild(tr);
-  });
-  container.appendChild(table);
-  
-  document.getElementById('determinant').className = (width === height) || (height === width && height != 0) ? '' : 'inactive';
-  document.getElementById('horizontal').className = width > 1 ? '' : 'inactive';
-  document.getElementById('vertiacal').className = height > 1 ? '' : 'inactive';
-  document.getElementById('clock').className = height > 1 ||  width > 1 ? '' : 'inactive';
-  document.getElementById('clockCounter').className = height > 1 ||  width > 1 ? '' : 'inactive';
+	if (height < 9 || width < 9) {
+	  const container = document.getElementById('matrixContainer');
+	  container.innerHTML = ''; 
+	  const table = document.createElement('table');
+	  
+	  matrix.forEach(row => {
+		const tr = document.createElement('tr');
+		row.forEach(value => {
+		  const td = document.createElement('td');
+		  td.textContent = value;
+		  tr.appendChild(td);
+		});
+		table.appendChild(tr);
+	  });
+	  container.appendChild(table);
+	  
+	  document.getElementById('determinant').className = (width === height) || (height === width && height != 0) ? '' : 'inactive';
+	  document.getElementById('horizontal').className = width > 1 ? '' : 'inactive';
+	  document.getElementById('vertiacal').className = height > 1 ? '' : 'inactive';
+	  document.getElementById('clock').className = height > 1 ||  width > 1 ? '' : 'inactive';
+	  document.getElementById('clockCounter').className = height > 1 ||  width > 1 ? '' : 'inactive';
 
-  document.getElementById('fill').className = (height > 0 || width > 0) && (height != 0 && width != 0) ? '' : 'inactive';
-  document.getElementById('clear').className = (height > 0 || width > 0) && (height != 0 && width != 0)  ? '' : 'inactive';
-  document.getElementById('transpose').className = (height > 0 || width > 0) && (height != 0 && width != 0)  ? '' : 'inactive';
+	  document.getElementById('fill').className = (height > 0 || width > 0) && (height != 0 && width != 0) ? '' : 'inactive';
+	  document.getElementById('clear').className = (height > 0 || width > 0) && (height != 0 && width != 0)  ? '' : 'inactive';
+	  document.getElementById('transpose').className = (height > 0 || width > 0) && (height != 0 && width != 0)  ? '' : 'inactive';
+	}
+	else {
+		console.log("Введи нормальные значения");
+	}
+  
 }
 
 function fillRandom() {
