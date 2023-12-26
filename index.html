@@ -18,13 +18,16 @@
     opacity: 0.5;
     pointer-events: none;
   }
+  .editable {
+    cursor: pointer;
+  }
 </style>
 </head>
 <body>
     <input type="number" id="matrixWidth" placeholder="Ширина">
     <input type="number" id="matrixHeight" placeholder="Высота">
     <button id="create" onclick="createMatrix()">Создать матрицу</button>
-    
+
     <div>
       <button id="fill"  onclick="fillRandom()">Заполнить</button>
       <button id="clear" onclick="clearMatrix()">Очистить</button>
@@ -41,5 +44,5 @@
     <div id="matrixContainer"></div>
     
     <script src="matrix.js"></script>
-    </body>
-    </html>
+  </body>
+</html>
