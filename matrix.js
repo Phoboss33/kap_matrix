@@ -1,108 +1,72 @@
-let matrix = [];
-let matrixSize = 1;
+function applyStyles() {
+  var block = document.getElementById('block');
+  var width = document.getElementById('width').value;
+  var height = document.getElementById('height').value;
+  var color = document.getElementById('color').value;
+  var imageUrl = document.getElementById('imageUrl').value;
+  var border = document.getElementById('border').checked;
+  var borderStyle = document.getElementById('borderStyle').value;
+  var borderColor = document.getElementById('borderColor').value;
+  var borderWidth = document.getElementById('borderWidth').value;
+  var text = document.getElementById('text').value;
+  var textRepeat = document.getElementById('textRepeat').value;
+  var textAlign = document.getElementById('textAlign').value.split(' ');
+  var shadow = document.getElementById('shadow').checked;
 
-let width = 0;
-let height = 0;
+  block.innerHTML = text.repeat(Number(textRepeat));
+  block.style.width = width + 'px';
+  block.style.height = height + 'px';
+  block.style.backgroundColor = color;
+  block.style.backgroundImage = imageUrl ? 'url(' + imageUrl + ')' : '';
+  block.style.borderStyle = border ? borderStyle : 'none';
+  block.style.borderColor = borderColor;
+  block.style.borderWidth = borderWidth + 'px';
+  block.style.justifyContent = textAlign[0];
+  block.style.alignItems = textAlign[1];
+  block.style.display = 'flex';
+  block.style.boxShadow = shadow ? '10px 10px 5px grey' : 'none';
 
-function createMatrix() {
-    width = parseInt(document.getElementById('matrixWidth').value);
-    height = parseInt(document.getElementById('matrixHeight').value);
+  // Удаляем предыдущие анимации, если они есть
+  block.classList.remove('text-animation');
 
-    matrix = Array.from({ length: height }, () => new Array(width).fill(0));
-    drawMatrix();
-}
-
-function drawMatrix() {
-  if (height < 9 && width < 9) {
-    const container = document.getElementById('matrixContainer');
-    container.innerHTML = ''; 
-    const table = document.createElement('table');
-
-    matrix.forEach((row, rowIndex) => {
-    const tr = document.createElement('tr');
-    row.forEach((value, colIndex) => {
-      const td = document.createElement('td');
-      td.textContent = value;
-      td.contentEditable = "true";
-      td.classList.add("editable");
-      td.oninput = () => {
-        matrix[rowIndex][colIndex] = parseInt(td.textContent);
-      }
-      tr.appendChild(td);
-    });
-    table.appendChild(tr);
-    });
-    container.appendChild(table);
-
-    document.getElementById('determinant').className = (width === height) || (height === width && height != 0) ? '' : 'inactive';
-    document.getElementById('horizontal').className = width > 1 ? '' : 'inactive';
-    document.getElementById('vertiacal').className = height > 1 ? '' : 'inactive';
-    document.getElementById('clock').className = height > 1 && width > 1 ? '' : 'inactive';
-    document.getElementById('clockCounter').className = height > 1 && width > 1 ? '' : 'inactive';
-
-    document.getElementById('fill').className = (height > 0 || width > 0) && (height != 0 && width != 0) ? '' : 'inactive';
-    document.getElementById('clear').className = (height > 0 || width > 0) && (height != 0 && width != 0)  ? '' : 'inactive';
-    document.getElementById('transpose').className = (height > 0 || width > 0) && (height != 0 && width != 0)  ? '' : 'inactive';
+  // Анимация текста
+  switch (borderStyle) {
+    case 'solid':
+      block.classList.add('text-animation');
+      block.style.animationName = 'textAnimationSolid';
+      break;
+    case 'dashed':
+      block.classList.add('text-animation');
+      block.style.animationName = 'textAnimationDashed';
+      break;
+    case 'dotted':
+      block.classList.add('text-animation');
+      block.style.animationName = 'textAnimationDotted';
+      break;
+    default:
+      block.style.animationName = 'none';
+      break;
   }
-  else {
-    console.log("Введи нормальные значения");
-  }
-
 }
 
-function fillRandom() {
-  matrix = matrix.map(row => row.map(() => Math.floor(Math.random() * 10)));
-  drawMatrix();
+// Примеры CSS Keyframes для анимации текста
+// Добавить внутрь тега <style> в HTML
+/*
+@keyframes textAnimationSolid {
+  0% { opacity: 1; }
+  50% { opacity: 0.5; }
+  100% { opacity: 1; }
 }
 
-function clearMatrix() {
-  matrix = matrix.map(row => row.map(() => 0));
-  drawMatrix();
+@keyframes textAnimationDashed {
+  0% { transform: translateX(0); }
+  50% { transform: translateX(20px); }
+  100% { transform: translateX(0); }
 }
 
-function rotateClockwise() {
-  matrix = matrix[0].map((val, index) => matrix.map(row => row[index]).reverse());
-  drawMatrix();
+@keyframes textAnimationDotted {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.5); }
+  100% { transform: scale(1); }
 }
-
-function rotateCounterClockwise() {
-  matrix = matrix[0].map((val, index) => matrix.map(row => row[row.length - 1 - index]));
-  drawMatrix();
-}
-
-function mirrorHorizontally() {
-  matrix = matrix.map(row => row.reverse());
-  drawMatrix();
-}
-
-function mirrorVertically() {
-  matrix.reverse();
-  drawMatrix();
-}
-
-function transposeMatrix() {
-  matrix = matrix[0].map((col, i) => matrix.map(row => row[i]));
-  drawMatrix();
-}
-
-function calculateDeterminant() {
-  if (matrix.length !== matrix[0].length) {
-    alert('Определитель только на квадратных матрицах');
-    return;
-  }
-  
-  function determinant(m) {
-    let det = 0;
-    if (m.length === 1) return m[0][0];
-    if (m.length === 2) return m[0][0] * m[1][1] - m[0][1] * m[1][0];
-    for (let i = 0; i < m[0].length; i++) {
-      let temp = m.slice(1).map(row => row.filter((val, index) => index !== i));
-      det += m[0][i] * determinant(temp) * (i % 2 === 0 ? 1 : -1);
-    }
-    return det;
-  }
-
-  alert('Определитель: ' + determinant(matrix));
-}
-
-createMatrix();
+*/

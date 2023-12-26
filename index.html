@@ -1,48 +1,199 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
+
 <head>
-<meta charset="UTF-8">
-<title>матрица</title>
-<style>
-  table {
-    margin-top: 20px;
-    border-collapse: collapse;
-  }
-  td {
-    width: 30px;
-    height: 30px;
-    border: 1px solid #000;
-    text-align: center;
-  }
-  .inactive {
-    opacity: 0.5;
-    pointer-events: none;
-  }
-  .editable {
-    cursor: pointer;
-  }
-</style>
+  <meta charset="UTF-8">
+  <title>Конструктор блока</title>
+  <style>
+    #block {
+      transition: all 0.5s;
+      position: relative;
+    }
+
+    .text-animation {
+      position: absolute;
+      animation-duration: 2s;
+      animation-iteration-count: infinite;
+      animation-timing-function: linear;
+    }
+
+    @keyframes textAnimationSolid {
+      0% {
+        opacity: 1;
+      }
+
+      50% {
+        opacity: 0.5;
+      }
+
+      100% {
+        opacity: 1;
+      }
+    }
+
+    @keyframes textAnimationFade {
+      0% {
+        opacity: 1;
+      }
+
+      50% {
+        opacity: 0;
+      }
+
+      100% {
+        opacity: 1;
+      }
+    }
+  </style>
 </head>
+
 <body>
-    <input type="number" id="matrixWidth" placeholder="Ширина">
-    <input type="number" id="matrixHeight" placeholder="Высота">
-    <button id="create" onclick="createMatrix()">Создать матрицу</button>
 
-    <div>
-      <button id="fill"  onclick="fillRandom()">Заполнить</button>
-      <button id="clear" onclick="clearMatrix()">Очистить</button>
-      <button id="clock" onclick="rotateClockwise()">По часовой</button>
-      <button id="clockCounter" onclick="rotateCounterClockwise()">Против часовой</button>
+  <div id="block">
+    <span id="text">Текст</span>
+  </div>
 
-      <button id="horizontal" onclick="mirrorHorizontally()">Отзеркалить по горизонтали</button>
-      <button id="vertiacal" onclick="mirrorVertically()">По вертикали</button>
+  <label for="width">Ширина:</label>
+  <input type="number" id="width" value="100"><br>
 
-      <button id="transpose" onclick="transposeMatrix()">Транспонировать</button>
-      <button id="determinant" onclick="calculateDeterminant()">Определитель</button>
-    </div>
-    
-    <div id="matrixContainer"></div>
-    
-    <script src="matrix.js"></script>
-  </body>
+  <label for="height">Высота:</label>
+  <input type="number" id="height" value="100"><br>
+
+  <label for="color">Цвет:</label>
+  <input type="color" id="color" value="#ff0000"><br>
+
+  <label for="imageUrl">Ссылка на картинку:</label>
+  <input type="text" id="imageUrl"><br>
+
+  <label for="border">Граница:</label>
+  <input type="checkbox" id="border"><br>
+
+  <label for="borderStyle">Стиль границы:</label>
+  <select id="borderStyle">
+    <option value="none">Нет</option>
+    <option value="solid">Сплошная</option>
+    <option value="dashed">Пунктирная</option>
+    <option value="dotted">Точечная</option>
+  </select><br>
+
+  <label for="borderColor">Цвет границы:</label>
+  <input type="color" id="borderColor" value="#000000"><br>
+
+  <label for="borderWidth">Толщина границы:</label>
+  <input type="number" id="borderWidth" value="0"><br>
+
+  <label for="textChange">Текст:</label>
+  <input type="text" id="textChange" onchange="updateText()" value="Текст"><br>
+
+  <label for="textRepeat">Количество повторений:</label>
+  <input type="number" id="textRepeat" onchange="applyStyles()" value="1"><br>
+
+  <label for="textAlign">Выравнивание текста:</label>
+  <select id="textAlign" onchange="applyStyles()">
+    <option value="top left">Слева сверху</option>
+    <option value="top center">По центру сверху</option>
+    <option value="top right">Справа сверху</option>
+    <option value="center left">Слева по центру</option>
+    <option value="center center">По центру</option>
+    <option value="center right">Справа по центру</option>
+    <option value="bottom left">Слева снизу</option>
+    <option value="bottom center">По центру снизу</option>
+    <option value="bottom right">Справа снизу</option>
+  </select><br>
+
+  <label for="shadow">Тень блока:</label>
+  <input type="checkbox" id="shadow" onchange="applyStyles()"><br>
+
+  <label for="shadowColor">Цвет тени:</label>
+  <input type="color" id="shadowColor" value="#000000" onchange="applyStyles()"><br>
+
+  <label for="shadowX">Смещение по горизонтали:</label>
+  <input type="number" id="shadowX" value="10" onchange="applyStyles()"><br>
+
+  <label for="shadowY">Смещение по вертикали:</label>
+  <input type="number" id="shadowY" value="10" onchange="applyStyles()"><br>
+
+  <label for="shadowBlur">Размытие тени:</label>
+  <input type="number" id="shadowBlur" value="5" onchange="applyStyles()"><br>
+
+  <label for="textAnimation">Анимация текста:</label>
+  <select id="textAnimation" onchange="applyStyles()">
+    <option value="none">Нет</option>
+    <option value="textAnimationSolid">Анимация 1</option>
+    <option value="textAnimationFade">Анимация 2</option>
+  </select><br>
+
+  <button onclick="applyStyles()">Применить</button>
+
+  <script>
+    function applyStyles() {
+      var block = document.getElementById('block');
+      var width = document.getElementById('width').value;
+      var height = document.getElementById('height').value;
+      var color = document.getElementById('color').value;
+      var imageUrl = document.getElementById('imageUrl').value;
+      var border = document.getElementById('border').checked;
+      var borderStyle = document.getElementById('borderStyle').value;
+      var borderColor = document.getElementById('borderColor').value;
+      var borderWidth = document.getElementById('borderWidth').value;
+      var text = document.getElementById('textChange').value || 'Текст';
+      var textRepeat = document.getElementById('textRepeat').value;
+      var textAlign = document.getElementById('textAlign').value.split(' ');
+      var shadow = document.getElementById('shadow').checked;
+      var shadowColor = document.getElementById('shadowColor').value;
+      var shadowX = document.getElementById('shadowX').value;
+      var shadowY = document.getElementById('shadowY').value;
+      var shadowBlur = document.getElementById('shadowBlur').value;
+      var textAnimation = document.getElementById('textAnimation').value;
+
+      var textElement = document.getElementById('text');
+
+      block.style.width = width + 'px';
+      block.style.height = height + 'px';
+      block.style.backgroundColor = color;
+      block.style.backgroundImage = imageUrl ? 'url(' + imageUrl + ')' : '';
+      block.style.borderStyle = border ? borderStyle : 'none';
+      block.style.borderColor = borderColor;
+      block.style.borderWidth = borderWidth + 'px';
+
+      block.style.justifyContent = textAlign[1];
+      if (textAlign[0] === 'top') {
+        block.style.alignItems = 'flex-start';
+      } else if (textAlign[0] === 'center') {
+        block.style.alignItems = 'center';
+      } else if (textAlign[0] === 'bottom') {
+        block.style.alignItems = 'flex-end';
+      }
+
+      block.style.display = 'flex';
+
+      if (shadow) {
+        block.style.boxShadow = `${shadowX}px ${shadowY}px ${shadowBlur}px ${shadowColor}`;
+      } else {
+        block.style.boxShadow = 'none';
+      }
+
+      textElement.textContent = text.repeat(Number(textRepeat)).trim();
+
+      textElement.classList.remove('text-animation');
+      textElement.style.animationName = 'none';
+
+      if (textAnimation === 'textAnimationSolid') {
+        textElement.classList.add('text-animation');
+        textElement.style.animationName = 'textAnimationSolid';
+      } else if (textAnimation === 'textAnimationFade') {
+        textElement.classList.add('text-animation');
+        textElement.style.animationName = 'textAnimationFade';
+      }
+    }
+
+    function updateText() {
+      var textElement = document.getElementById('text');
+      var text = document.getElementById('textChange').value;
+      textElement.textContent = text;
+    }
+  </script>
+
+</body>
+
 </html>
