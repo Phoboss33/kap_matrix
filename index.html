@@ -10,6 +10,9 @@
       top: 50%;
       left: 50%;
       transform: translate(-50%, -50%);
+      background-size: cover;
+      background-repeat: no-repeat;
+      background-position: center;
     }
 
     .text-animation {
@@ -17,6 +20,7 @@
       animation-duration: 2s;
       animation-iteration-count: infinite;
       animation-timing-function: linear;
+
     }
 
     @keyframes textAnimationSolid {
@@ -33,17 +37,17 @@
       }
     }
 
-    @keyframes textAnimationFade {
+    @keyframes textAnimationUp {
       0% {
-        opacity: 1;
+        transform: translate(0px, 0px);
       }
 
       50% {
-        opacity: 0;
+        transform: translate(0px, 10px);
       }
 
       100% {
-        opacity: 1;
+        transform: translate(0px, 0px);
       }
     }
   </style>
@@ -122,7 +126,7 @@
   <select id="textAnimation" onchange="applyStyles()">
     <option value="none">Нет</option>
     <option value="textAnimationSolid">Анимация 1</option>
-    <option value="textAnimationFade">Анимация 2</option>
+    <option value="textAnimationUp">Анимация 2</option>
   </select><br>
 
   <button onclick="applyStyles()">Применить</button>
@@ -138,7 +142,7 @@
       var borderStyle = document.getElementById('borderStyle').value;
       var borderColor = document.getElementById('borderColor').value;
       var borderWidth = document.getElementById('borderWidth').value;
-      var text = document.getElementById('textChange').value || 'Текст';
+      var text = document.getElementById('textChange').value;
       var textRepeat = document.getElementById('textRepeat').value;
       var textAlign = document.getElementById('textAlign').value.split(' ');
       var shadow = document.getElementById('shadow').checked;
@@ -193,7 +197,7 @@
         block.style.boxShadow = 'none';
       }
 
-      textElement.textContent = text.repeat(Number(textRepeat)).trim();
+      textElement.textContent = text.repeat(Number(textRepeat));
 
       textElement.classList.remove('text-animation');
       textElement.style.animationName = 'none';
@@ -202,9 +206,9 @@
         textElement.classList.add('text-animation');
         textElement.style.animationName = 'textAnimationSolid';
       } 
-      else if (textAnimation === 'textAnimationFade') {
+      else if (textAnimation === 'textAnimationUp') {
         textElement.classList.add('text-animation');
-        textElement.style.animationName = 'textAnimationFade';
+        textElement.style.animationName = 'textAnimationUp';
       }
     }
 
