@@ -6,8 +6,10 @@
   <title>Конструктор блока</title>
   <style>
     #block {
-      transition: all 0.5s;
-      position: relative;
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
     }
 
     .text-animation {
@@ -80,7 +82,7 @@
   <input type="color" id="borderColor" value="#000000"><br>
 
   <label for="borderWidth">Толщина границы:</label>
-  <input type="number" id="borderWidth" value="0"><br>
+  <input type="number" id="borderWidth" value="0" onchange="applyStyles()"><br>
 
   <label for="textChange">Текст:</label>
   <input type="text" id="textChange" onchange="updateText()" value="Текст"><br>
@@ -157,11 +159,28 @@
       block.style.borderWidth = borderWidth + 'px';
 
       block.style.justifyContent = textAlign[1];
+
+
+      if (textAlign[1] === 'right') {
+        textElement.style.textAlign = 'right';
+      }
+      else if (textAlign[1] === 'left') {
+        textElement.style.textAlign = 'left';
+      }
+      else {
+        textElement.style.textAlign = 'center';
+      }
+
+
       if (textAlign[0] === 'top') {
         block.style.alignItems = 'flex-start';
-      } else if (textAlign[0] === 'center') {
+        //block.style.alignItems = 'left';
+      } 
+      else if (textAlign[0] === 'center') {
         block.style.alignItems = 'center';
-      } else if (textAlign[0] === 'bottom') {
+
+      } 
+      else if (textAlign[0] === 'bottom') {
         block.style.alignItems = 'flex-end';
       }
 
@@ -169,7 +188,8 @@
 
       if (shadow) {
         block.style.boxShadow = `${shadowX}px ${shadowY}px ${shadowBlur}px ${shadowColor}`;
-      } else {
+      } 
+      else {
         block.style.boxShadow = 'none';
       }
 
@@ -181,7 +201,8 @@
       if (textAnimation === 'textAnimationSolid') {
         textElement.classList.add('text-animation');
         textElement.style.animationName = 'textAnimationSolid';
-      } else if (textAnimation === 'textAnimationFade') {
+      } 
+      else if (textAnimation === 'textAnimationFade') {
         textElement.classList.add('text-animation');
         textElement.style.animationName = 'textAnimationFade';
       }
