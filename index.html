@@ -6,13 +6,11 @@
   <title>Конструктор блока</title>
   <style>
     #block {
-      position: fixed;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
+      margin: 10px;
       background-size: cover;
       background-repeat: no-repeat;
       background-position: center;
+      overflow: hidden;
     }
 
     .text-animation {
@@ -72,10 +70,10 @@
   <input type="text" id="imageUrl"><br>
 
   <label for="border">Граница:</label>
-  <input type="checkbox" id="border"><br>
+  <input type="checkbox" id="border" onclick="funcCheck()"><br>
 
-  <label for="borderStyle">Стиль границы:</label>
-  <select id="borderStyle">
+  <label for="borderStyle" >Стиль границы:</label>
+  <select id="borderStyle" disabled>
     <option value="none">Нет</option>
     <option value="solid">Сплошная</option>
     <option value="dashed">Пунктирная</option>
@@ -83,10 +81,10 @@
   </select><br>
 
   <label for="borderColor">Цвет границы:</label>
-  <input type="color" id="borderColor" value="#000000"><br>
+  <input type="color" id="borderColor" value="#000000" disabled><br>
 
   <label for="borderWidth">Толщина границы:</label>
-  <input type="number" id="borderWidth" value="0" onchange="applyStyles()"><br>
+  <input type="number" id="borderWidth" value="0" onchange="applyStyles()" disabled><br>
 
   <label for="textChange">Текст:</label>
   <input type="text" id="textChange" onchange="updateText()" value="Текст"><br>
@@ -108,19 +106,19 @@
   </select><br>
 
   <label for="shadow">Тень блока:</label>
-  <input type="checkbox" id="shadow" onchange="applyStyles()"><br>
+  <input type="checkbox" id="shadow" onchange="applyStyles()" onclick="funcCheck()"><br>
 
   <label for="shadowColor">Цвет тени:</label>
-  <input type="color" id="shadowColor" value="#000000" onchange="applyStyles()"><br>
+  <input type="color" id="shadowColor" value="#000000" onchange="applyStyles()" disabled><br>
 
   <label for="shadowX">Смещение по горизонтали:</label>
-  <input type="number" id="shadowX" value="10" onchange="applyStyles()"><br>
+  <input type="number" id="shadowX" value="10" onchange="applyStyles()" disabled><br>
 
   <label for="shadowY">Смещение по вертикали:</label>
-  <input type="number" id="shadowY" value="10" onchange="applyStyles()"><br>
+  <input type="number" id="shadowY" value="10" onchange="applyStyles()" disabled><br>
 
   <label for="shadowBlur">Размытие тени:</label>
-  <input type="number" id="shadowBlur" value="5" onchange="applyStyles()"><br>
+  <input type="number" id="shadowBlur" value="5" onchange="applyStyles()" disabled><br>
 
   <label for="textAnimation">Анимация текста:</label>
   <select id="textAnimation" onchange="applyStyles()">
@@ -145,6 +143,7 @@
       var text = document.getElementById('textChange').value;
       var textRepeat = document.getElementById('textRepeat').value;
       var textAlign = document.getElementById('textAlign').value.split(' ');
+
       var shadow = document.getElementById('shadow').checked;
       var shadowColor = document.getElementById('shadowColor').value;
       var shadowX = document.getElementById('shadowX').value;
@@ -153,6 +152,9 @@
       var textAnimation = document.getElementById('textAnimation').value;
 
       var textElement = document.getElementById('text');
+
+      width = width < 0 ? 0 : width;
+      height = height < 0 ? 0 : height;
 
       block.style.width = width + 'px';
       block.style.height = height + 'px';
@@ -217,6 +219,34 @@
       var text = document.getElementById('textChange').value;
       textElement.textContent = text;
     }
+
+   function funcCheck() {
+    var borderChecked = document.getElementById('border');
+
+    if (borderChecked.checked) {  
+      borderStyle.disabled = false;
+      borderColor.disabled = false;
+      borderWidth.disabled = false;
+    }
+    else {
+      borderStyle.disabled = true;
+      borderColor.disabled = true;
+      borderWidth.disabled = true;
+    }
+
+    if (shadow.checked) {  
+      shadowColor.disabled = false;
+      shadowX.disabled = false;
+      shadowY.disabled = false;
+      shadowBlur.disabled = false;
+    }
+    else {
+      shadowColor.disabled = true;
+      shadowX.disabled = true;
+      shadowY.disabled = true;
+      shadowBlur.disabled = true;
+    }
+  }
   </script>
 
 </body>
